@@ -10,7 +10,7 @@ using namespace std;
 struct Data
 {
 	string City_Name;
-	vector<float> position (2);
+	vector<float> position;
 };
 
 struct Node

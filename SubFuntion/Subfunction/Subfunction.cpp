@@ -10,7 +10,7 @@ using namespace std;
 struct Data
 {
 	string City_Name;
-	float latitude, longtitude;
+	vector<float> position (2);
 };
 
 struct Node
@@ -19,7 +19,7 @@ struct Node
 	Node* rightNode;
 	Data key;
 	// Xu ly insert can theo cong thuc deep mod (number of info field) nen mn can phai cap nhat deep moi khi xu ly
-	int deep;
+	int depth;
 };
 
 Node* createNode(Data key, int previousDeep)
@@ -45,10 +45,10 @@ Data encryption(string temp)
 			key.City_Name = word;
 
 		else if (pos == 1)
-			key.latitude = stof(word);
+			key.position[0] = stof(word);
 
 		else if (pos == 2)
-			key.longtitude = stof(word);
+			key.position[1] = stof(word);
 
 		else if (pos > 2)
 			break;

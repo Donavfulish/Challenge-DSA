@@ -9,8 +9,8 @@ using namespace std;
 
 struct Data
 {
-	string City_Name;
-	vector<float> position;
+	string Name;
+	float Position [2];
 };
 
 struct Node
@@ -42,13 +42,13 @@ Data encryption(string temp)
 	while (getline(ss, word, ','))
 	{
 		if (pos == 0)
-			key.City_Name = word;
+			key.Name = word;
 
 		else if (pos == 1)
-			key.position[0] = stof(word);
+			key.Position[0] = stof(word);
 
 		else if (pos == 2)
-			key.position[1] = stof(word);
+			key.Position[1] = stof(word);
 
 		else if (pos > 2)
 			break;

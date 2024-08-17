@@ -6,6 +6,8 @@
 #include <sstream>
 #include <math.h>
 #include <cmath>
+#include <algorithm>
+#include <stack>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ struct Node
 	Node* rightNode;
 	Data key;
 	// Xu ly insert can theo cong thuc deep mod (number of info field) nen mn can phai cap nhat deep moi khi xu ly
-	int depth;
+	int depth; // depth bat dau = 0
 };
 
 Node* createNode(Data key, int previousDeep)
@@ -91,7 +93,7 @@ float getDistance(float A[2], float B[2])
 {
 	float latitudeGap = abs(A[0] - B[0]) * M_PI / 180;
 	float longitudeGap = abs(A[1] - B[1]) * M_PI / 180;
-	double a = sin(latitudeGap / 2) * sin(latitudeGap / 2) + cos(A[1] * M_PI / 180) * cos(B[1] * M_PI/ 180) * sin(longitudeGap / 2) * sin(longitudeGap / 2);
+	double a = sin(latitudeGap / 2) * sin(latitudeGap / 2) + cos(A[0] * M_PI / 180) * cos(B[0] * M_PI/ 180) * sin(longitudeGap / 2) * sin(longitudeGap / 2);
 	double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 	double distance = EARTH_RADIUS * c; // km
 	return static_cast<float>(distance);
@@ -117,15 +119,124 @@ void rangeSearch(vector<Data>& result, Node* pRoot, float LeftBottom[2], float T
 	if (dimensionPos <= TopRight[dimension])
 		rangeSearch(result, pRoot->rightNode, LeftBottom, TopRight);
 }
+int numberNode(Node* root)
+{
+	if (root == NULL)
+	{
+		return 0;
+	}
+	return 1 + numberNode(root->leftNode) + numberNode(root->rightNode);
+}
+/*void collectPoints(Node* node, std::vector<Data>& points) {
+	if (!node) return;
 
+	collectPoints(node->leftNode, points);
+	points.push_back(node->key);
+	collectPoints(node->rightNode, points);
+}*/
+void insertRecursion(Node*& root, Data D, int depth)
+{
+	if (root == NULL)
+	{
+		root = createNode(D, depth);
+		return;
+	}
+
+	int dim = root->depth % 2;
+	if (dim == 0)
+	{
+		if (D.Position[0] > root->key.Position[0])
+			insertRecursion(root->rightNode, D, depth + 1);
+		else if (D.Position[0] < root->key.Position[0])
+			insertRecursion(root->leftNode, D, depth + 1);
+	}
+	else if (dim == 1)
+	{
+		if (D.Position[1] > root->key.Position[1])
+			insertRecursion(root->rightNode, D, depth + 1);
+		else if (D.Position[1] < root->key.Position[1])
+			insertRecursion(root->leftNode, D, depth + 1);
+	}
+}
+Node* buildBalancedKDTree(vector<Data>& points, int start, int end, int depth) {
+	if (start > end) return nullptr;
+
+	int axis = depth % 2;
+
+	// Sort points based on current axis
+	std::sort(points.begin() + start, points.begin() + end + 1, [axis](const Data& a, const Data& b) {
+		return a.Position[axis] < b.Position[axis];
+		});
+
+	// Find median point
+	int medianIndex = (start + end) / 2;
+	Data medianData = points[medianIndex];
+
+	// Create new node and recursively build subtrees
+	Node* node = createNode(medianData, depth);
+	node->leftNode = buildBalancedKDTree(points, start, medianIndex - 1, depth + 1);
+	node->rightNode = buildBalancedKDTree(points, medianIndex + 1, end, depth + 1);
+
+	return node;
+}
+
+Node* buildKDTree(const vector<Data>& points) {
+	vector<Data> pointsCopy = points;
+	return buildBalancedKDTree(pointsCopy, 0, pointsCopy.size() - 1, 0);
+}
+void Insert(Node*& root, Data D, vector<Data>& arrayData)
+{
+	insertRecursion(root, D, 0);
+	arrayData.push_back(D);
+	int left = numberNode(root->leftNode);
+	int right = numberNode(root->rightNode);
+	float checkBalanced = max(left, right) / min(left, right);
+	if (checkBalanced >= 4.0)
+	{
+		root = buildKDTree(arrayData);
+	}
+}
+void BFS(Node* root)
+{
+	stack<Node*> s;
+	s.push(root);
+	int level = 0;
+
+	while (!s.empty())
+	{
+		vector<Node*> levelList;
+
+		cout << "Level " << ++level << ":" << endl;
+		while (!s.empty())
+		{
+			Node* curNode = s.top();
+			levelList.push_back(curNode);
+			s.pop();
+			Data x = curNode->key;
+			cout << x.Name << ": (" << x.Position[0] << "," << x.Position[1] << ")" << endl;
+		}
+
+		for (Node* node : levelList)
+		{
+			if (node->leftNode != nullptr) s.push(node->leftNode);
+			if (node->rightNode != nullptr) s.push(node->rightNode);
+		}
+		cout << endl;
+	}
+
+}
 int main()
 {
 	// Au test -----------------------------------------------------------------------------------
 	vector<Data> data = readFile("DATA.txt");
-	for (Data x : data)
+	Node* root = buildKDTree(data);
+	/*for (Data x : data)
 	{
 		cout << x.Name << ": (" << x.Position[0] << "," << x.Position[1] << ")" << endl;
-	}
+	}*/
+	BFS(root);
+	
 	return 0;
+
 	// -------------------------------------------------------------------------------------------
 }

@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <cstring>
 #include <string>
@@ -225,6 +225,65 @@ void BFS(Node* root)
 	}
 
 }
+//==========================Luan===============================================================================
+void searchRecursive(Node*& root, float target[2], Data& best_city)
+{
+
+	if (root == NULL) return;
+	//Trục phân chia tại độ sâu hiện tại
+	int axis = root->depth % 2;
+
+	// Cập nhật best nếu điểm tại node hiện tại gần hơn
+	if (getDistance(target, best_city.Position) > getDistance(target, root->key.Position))
+	{
+		best_city = root->key;
+	}
+
+	// Chọn nhánh tiếp tục dựa trên trục phân chia
+	if (target[axis] < root->key.Position[axis])
+	{
+		searchRecursive(root->leftNode, target, best_city);
+		// Kiểm tra nhánh đối diện nếu có khả năng chứa điểm gần hơn
+
+		float dis_opp_branch = EARTH_RADIUS * cos(target[1 - axis]) * abs(target[axis] - root->key.Position[axis]);
+		if (dis_opp_branch < getDistance(target, best_city.Position))
+		{
+			searchRecursive(root->rightNode, target, best_city);
+		}
+	}
+	else
+	{
+		searchRecursive(root->rightNode, target, best_city);
+		// Kiểm tra nhánh đối diện nếu có khả năng chứa điểm gần hơn
+
+		float dis_opp_branch = EARTH_RADIUS * cos(target[1 - axis]) * abs(target[axis] - root->key.Position[axis]);
+		if (dis_opp_branch < getDistance(target, best_city.Position))
+		{
+			searchRecursive(root->leftNode, target, best_city);
+		}
+	}
+
+}
+
+Data findNearestNeighborSearch(Node*& root)
+{
+	Data rs;
+	if (root == NULL) return rs;
+	rs = root->key;
+	float target[2];
+	do
+	{
+		cout << "Enter latitude: ";
+		cin >> target[0];
+		cout << "Enter longitude: ";
+		cin >> target[1];
+		if (target[0] > 90 || target[0] < -90 || target[1] > 180 || target[1] < -180) cout << "Pleas, enter again !\n";
+	} while (target[0] > 90 || target[0] < -90 || target[1] > 180 || target[1] < -180);
+	searchRecursive(root, target, rs);
+	return rs;
+}
+//==========================Luan===============================================================================
+
 int main()
 {
 	// Au test -----------------------------------------------------------------------------------

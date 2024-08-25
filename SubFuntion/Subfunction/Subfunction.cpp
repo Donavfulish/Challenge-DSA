@@ -8,26 +8,12 @@
 #include <cmath>
 #include <algorithm>
 #include <stack>
+#include "Sub_function.h"
 
 using namespace std;
 
 #define M_PI 3.14159265358979323846
 #define EARTH_RADIUS 6371 // km
-
-struct Data
-{
-	string Name;
-	float Position [2]; // [0]: latitude (vi do), [1]: longitude (kinh do)
-};
-
-struct Node
-{
-	Node* leftNode;
-	Node* rightNode;
-	Data key;
-	// Xu ly insert can theo cong thuc deep mod (number of info field) nen mn can phai cap nhat deep moi khi xu ly
-	int depth; // depth bat dau = 0
-};
 
 Node* createNode(Data key, int previousDeep)
 {

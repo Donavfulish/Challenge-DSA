@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{0ECADAA8-299D-4656-8CE7-2ADEFFF90B10}|Subfunction.vcxproj|D:\\TRIET\\Challenge-DSA\\SubFuntion\\Subfunction\\Subfunction.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0ECADAA8-299D-4656-8CE7-2ADEFFF90B10}|Subfunction.vcxproj|solutionrelative:Subfunction.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0ECADAA8-299D-4656-8CE7-2ADEFFF90B10}|Subfunction.vcxproj|D:\\TRIET\\Challenge-DSA\\SubFuntion\\Subfunction\\Sub_function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0ECADAA8-299D-4656-8CE7-2ADEFFF90B10}|Subfunction.vcxproj|solutionrelative:Sub_function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Sub_function.h",
+              "DocumentMoniker": "D:\\TRIET\\Challenge-DSA\\SubFuntion\\Subfunction\\Sub_function.h",
+              "RelativeDocumentMoniker": "Sub_function.h",
+              "ToolTip": "D:\\TRIET\\Challenge-DSA\\SubFuntion\\Subfunction\\Sub_function.h",
+              "RelativeToolTip": "Sub_function.h",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAACAAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-08-24T14:58:52Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +41,7 @@
               "RelativeDocumentMoniker": "Subfunction.cpp",
               "ToolTip": "D:\\TRIET\\Challenge-DSA\\SubFuntion\\Subfunction\\Subfunction.cpp",
               "RelativeToolTip": "Subfunction.cpp",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAAwFwAAAABAAAA",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAAFcAAABaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-08-17T07:44:52.661Z",
               "EditorCaption": ""

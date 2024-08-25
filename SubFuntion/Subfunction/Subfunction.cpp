@@ -230,8 +230,7 @@ void searchRecursive(Node*& root, float target[2], Data& best_city)
 	{
 		searchRecursive(root->leftNode, target, best_city);
 		// Kiểm tra nhánh đối diện nếu có khả năng chứa điểm gần hơn
-
-		float dis_opp_branch = EARTH_RADIUS * cos(target[1 - axis]) * abs(target[axis] - root->key.Position[axis]);
+		float dis_opp_branch = abs(target[axis] - root->key.Position[axis]);
 		if (dis_opp_branch < getDistance(target, best_city.Position))
 		{
 			searchRecursive(root->rightNode, target, best_city);
@@ -241,8 +240,7 @@ void searchRecursive(Node*& root, float target[2], Data& best_city)
 	{
 		searchRecursive(root->rightNode, target, best_city);
 		// Kiểm tra nhánh đối diện nếu có khả năng chứa điểm gần hơn
-
-		float dis_opp_branch = EARTH_RADIUS * cos(target[1 - axis]) * abs(target[axis] - root->key.Position[axis]);
+		float dis_opp_branch = abs(target[axis] - root->key.Position[axis]);
 		if (dis_opp_branch < getDistance(target, best_city.Position))
 		{
 			searchRecursive(root->leftNode, target, best_city);

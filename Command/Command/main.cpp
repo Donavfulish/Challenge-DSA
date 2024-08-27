@@ -7,6 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	for (int i = 0; i < argc; i++) cout << i << ". " << argv[i] << "." << endl;
 	// Thiết lập locale để hỗ trợ UTF-8
 	locale::global(locale("en_US.UTF-8"));
 	wcout.imbue(locale());
@@ -16,9 +17,9 @@ int main(int argc, char* argv[])
 	//wcout << argv[1] << " " << argv[2];
 	if (strcmp(argv[1], "load") == 0)
 	{
+		if (argc != 3) return 0;
 		if (strcmp(argv[2], "-cmd") == 0)
 		{
-			wcout << "hello";
 			arrayData = loadListFile("-cmd");
 			root = buildKDTree(arrayData);
 		}
@@ -30,21 +31,22 @@ int main(int argc, char* argv[])
 	}
 	else if (strcmp(argv[1], "insert") == 0)
 	{
-		if (strcmp(argv[2], "") == 0)
+		if (argc == 2)
 		{
+			cout << "insert a city" << endl;
 			insert1City(root, arrayData);
 		}
-		else 
+		else if (argc == 3)
 		{
 			insertFromFile(argv[2], root, arrayData);
 		}
 	}
 	else if (strcmp(argv[1], "nearest-neighbor") == 0)
 	{
-		float target[2] = { stoi(argv[2]), stoi(argv[3]) };
+		if (argc != 5) return 0;
+		float target[2] = { stof(argv[2]), stof(argv[3]) };
 		if (strcmp(argv[4], "-cmd") == 0)
 		{
-			
 			nearestNeighbor(root, "-cmd", target);
 		}
 		else
@@ -54,8 +56,9 @@ int main(int argc, char* argv[])
 	}
 	else if (strcmp(argv[1], "rectangular") == 0)
 	{
-		float LeftBottom[2] = { stoi(argv[2]), stoi(argv[3]) };
-		float TopRight[2] = { stoi(argv[2]), stoi(argv[3]) };
+		if (argc != 7) return 0;
+		float LeftBottom[2] = { stof(argv[2]), stof(argv[3]) };
+		float TopRight[2] = { stof(argv[4]), stof(argv[5]) };
 		if (strcmp(argv[6], "-cmd") == 0)
 		{
 			rectangular(root, "-cmd", LeftBottom, TopRight);

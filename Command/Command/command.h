@@ -13,3 +13,5 @@ void insertFromFile(string filename, Node*& root, vector<Data>& arrayData);
 void nearestNeighbor(Node*& root, string print, float target[2]);
 void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2]);
 void writeBFSToTXT(string output, Node* root);
+void printDataList(const vector<Data>& dataList);
+vector<Data> getDataListFromTree(Node* root); // Use BFS

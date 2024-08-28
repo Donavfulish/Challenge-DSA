@@ -3,6 +3,7 @@
 #include <string.h>
 #include <codecvt>
 #include <queue>
+#include <iomanip>
 #include "Sub_function.h"
 using namespace std;
 
@@ -92,10 +93,9 @@ void insert1City(Node*& root, vector<Data>& arrayData)
 {
 	string city;
 	float x_cordinate, y_cordinate;
-	wcout << endl;
-	wcout << "City: ";
-	cin >> city;
-	cin.ignore();
+	wcout << "City's Name: ";
+	getline(cin, city);
+	//cin.ignore();
 	wcout << "Latitude: ";
 	cin >> x_cordinate;
 	wcout << "Longtitude: ";
@@ -123,16 +123,16 @@ void insertFromFile(string filename, Node*& root, vector<Data>& arrayData)
 void nearestNeighbor(Node*& root, string print, float target[2])
 {
 	Data D = findNearestNeighborSearch(root, target);
-	cout << D.Name << endl;
 	if (print == "-cmd")
 	{
-		wcout << "City: " << stringToWstring(D.Name) << endl;
-		wcout << "Latitude,Longtitude: " << D.Position[0] << "," << D.Position[1];
+		wcout << "Nearest City: " << stringToWstring(D.Name) << endl;
+		wcout << "Position: (" << D.Position[0] << "," << D.Position[1] << ")" << endl;
+		wcout << "Distance: " << fixed << setprecision(2) << (double)getDistance(target, D.Position) << " km" << endl;
 	}
 	else
 	{
 		ofstream f;
-		f.open("nearNeighbor.csv", ios::out);
+		f.open("nearestNeighbor.csv", ios::out);
 		if (!f.is_open())
 		{
 			wcout << "File not found\n";
@@ -140,7 +140,7 @@ void nearestNeighbor(Node*& root, string print, float target[2])
 		}
 		else
 		{
-			f << D.Name << "," << D.Position[0] << "," << D.Position[1] << "\n";
+			f << D.Name << "," << D.Position[0] << "," << D.Position[1] << endl;
 		}
 		f.close();
 	}
@@ -154,7 +154,7 @@ void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2
 	{
 		for (int i = 0; i < result.size(); i++)
 		{
-			wcout << stringToWstring(result[i].Name) << "," << result[i].Position[0] << "," << result[i].Position[1] << endl;
+			wcout << i + 1 << ". " << stringToWstring(result[i].Name) << ": (" << result[i].Position[0] << "," << result[i].Position[1] << ")" << endl;
 		}
 	}
 	else
@@ -170,7 +170,7 @@ void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2
 		{
 			for (int i = 0; i < result.size(); i++)
 			{
-				f << result[i].Name << "," << result[i].Position[0] << "," << result[i].Position[1] << endl;
+				f << result[i].Name << ": (" << result[i].Position[0] << "," << result[i].Position[1] << ")" << endl;
 			}
 		}
 		f.close();

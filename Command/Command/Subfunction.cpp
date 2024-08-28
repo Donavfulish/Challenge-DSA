@@ -8,6 +8,7 @@
 #include <cmath>
 #include <algorithm>
 #include <stack>
+#include <queue>
 #include <codecvt>
 #include "Sub_function.h"
 
@@ -185,7 +186,7 @@ void Insert(Node*& root, Data D, vector<Data>& arrayData)
 }
 void BFS(Node* root)
 {
-	stack<Node*> s;
+	queue<Node*> s;
 	s.push(root);
 	int level = 0;
 
@@ -196,7 +197,7 @@ void BFS(Node* root)
 		cout << "Level " << ++level << ":" << endl;
 		while (!s.empty())
 		{
-			Node* curNode = s.top();
+			Node* curNode = s.front();
 			levelList.push_back(curNode);
 			s.pop();
 			Data x = curNode->key;
@@ -258,14 +259,14 @@ Data findNearestNeighborSearch(Node*& root, float target[2]) // Triet sửa prot
 	if (root == NULL) return rs;
 	rs = root->key;
 	//float target[2];
-	do
+	while (target[0] > 90 || target[0] < -90 || target[1] > 180 || target[1] < -180)
 	{
-		//cout << "Enter latitude: ";
-		//cin >> target[0];
-		//cout << "Enter longitude: ";
-		//cin >> target[1];
-		if (target[0] > 90 || target[0] < -90 || target[1] > 180 || target[1] < -180) cout << "Pleas, enter again !\n";
-	} while (target[0] > 90 || target[0] < -90 || target[1] > 180 || target[1] < -180);
+		cout << "Please, enter again !\n";
+		cout << "Enter latitude: ";
+		cin >> target[0];
+		cout << "Enter longitude: ";
+		cin >> target[1];
+	}
 	searchRecursive(root, target, rs);
 	return rs;
 }
@@ -301,6 +302,36 @@ Node* updateTree(string filename)
 		return root;
 	}
 }
+
+void printDataList(const vector<Data>& dataList)
+{
+	int cnt = 0;
+	for (Data data : dataList)
+	{
+		cout << ++cnt << ". " << data.Name << ": (" << data.Position[0] << "," << data.Position[1] << ")" << endl;
+	}
+}
+
+vector<Data> getDataListFromTree(Node* root) // Use BFS
+{
+	queue<Node*> s;
+	vector<Data> dataList;
+	s.push(root);
+
+	while (!s.empty())
+	{
+		Node* cur = s.front();
+		s.pop();
+		
+		dataList.push_back(cur->key);
+
+		if (cur->leftNode != nullptr) s.push(cur->leftNode);
+		if (cur->rightNode != nullptr) s.push(cur->rightNode);
+	}
+
+	return dataList;
+}
+
 /*int main()
 {
 	// Au test -----------------------------------------------------------------------------------

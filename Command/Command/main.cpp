@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	for (int i = 0; i < argc; i++) cout << i << ". " << argv[i] << "." << endl;
+	//for (int i = 0; i < argc; i++) cout << i << ". " << argv[i] << "." << endl;
 	// Thiết lập locale để hỗ trợ UTF-8
 	locale::global(locale("en_US.UTF-8"));
 	wcout.imbue(locale());
@@ -22,22 +22,21 @@ int main(int argc, char* argv[])
 		if (argc != 3) return 0;
 		if (strcmp(argv[2], "-cmd") == 0)
 		{
-			arrayData = loadListFile("-cmd");
-			root = buildKDTree(arrayData);
-			writeBFSToTXT("Tree.txt", root);
-		}
-		else
+			vector<Data> dataList = getDataListFromTree(root);
+			printDataList(dataList);
+		}	
+		else if (strcmp(argv[2], "-csv") == 0)
 		{
-			arrayData = loadListFile("-csv");
-			root = buildKDTree(arrayData);
-			writeBFSToTXT("Tree.txt", root);
+			writeBFSToTXT("listFile.csv", root);
 		}
 	}
 	else if (strcmp(argv[1], "insert") == 0)
 	{
 		if (argc == 2)
 		{
-			cout << "insert a city" << endl;
+			cout << "------------------------" << endl;
+			cout << "INSERT A CITY" << endl;
+			cout << "------------------------" << endl;
 			insert1City(root, arrayData);
 			writeBFSToTXT("Tree.txt", root);
 		}

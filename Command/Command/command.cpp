@@ -2,6 +2,7 @@
 #include <string>
 #include <string.h>
 #include <codecvt>
+#include <queue>
 #include "Sub_function.h"
 using namespace std;
 
@@ -25,6 +26,46 @@ void writeToCSV(string output, vector<Data> D)
 		for (int i = 0; i < D.size(); i++)
 		{
 			f << D[i].Name << "," << D[i].Position[0] << "," << D[i].Position[1] << "\n";
+		}
+	}
+	f.close();
+	return;
+}
+void writeBFSToTXT(string output, Node* root)
+{
+	ofstream f;
+	f.open(output, ios::out);
+	if (!f.is_open())
+	{
+		wcout << "File not found\n";
+		return;
+	}
+	else
+	{
+		f << "city,lat,lng\n";
+		queue<Node*> q;
+		q.push(root);
+		int level = 0;
+
+		while (!q.empty())
+		{
+			vector<Node*> levelList;
+
+			while (!q.empty())
+			{
+				Node* curNode = q.front();
+				levelList.push_back(curNode);
+				q.pop();
+				Data x = curNode->key;
+				f << x.Name << "," << x.Position[0] << "," << x.Position[1] << endl;
+			}
+
+
+			for (Node* node : levelList)
+			{
+				if (node->leftNode != nullptr) q.push(node->leftNode);
+				if (node->rightNode != nullptr) q.push(node->rightNode);
+			}
 		}
 	}
 	f.close();

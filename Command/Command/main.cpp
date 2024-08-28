@@ -12,8 +12,10 @@ int main(int argc, char* argv[])
 	locale::global(locale("en_US.UTF-8"));
 	wcout.imbue(locale());
 
-	Node* root = NULL;
-	vector<Data> arrayData;
+	// Update Tree and Array
+	vector<Data> arrayData = readFile("Tree.txt");
+	Node* root = updateTree("Tree.txt");
+
 	//wcout << argv[1] << " " << argv[2];
 	if (strcmp(argv[1], "load") == 0)
 	{
@@ -22,11 +24,13 @@ int main(int argc, char* argv[])
 		{
 			arrayData = loadListFile("-cmd");
 			root = buildKDTree(arrayData);
+			writeBFSToTXT("Tree.txt", root);
 		}
 		else
 		{
 			arrayData = loadListFile("-csv");
 			root = buildKDTree(arrayData);
+			writeBFSToTXT("Tree.txt", root);
 		}
 	}
 	else if (strcmp(argv[1], "insert") == 0)
@@ -35,10 +39,12 @@ int main(int argc, char* argv[])
 		{
 			cout << "insert a city" << endl;
 			insert1City(root, arrayData);
+			writeBFSToTXT("Tree.txt", root);
 		}
 		else if (argc == 3)
 		{
 			insertFromFile(argv[2], root, arrayData);
+			writeBFSToTXT("Tree.txt", root);
 		}
 	}
 	else if (strcmp(argv[1], "nearest-neighbor") == 0)
@@ -75,17 +81,33 @@ int main(int argc, char* argv[])
 //=========== TEST ============
 /*int main()
 {
-	Node* root = NULL;
-	vector<Data> arrayData;
+	//Node* root = NULL;
+	//vector<Data> arrayData;
 	//loadListFile("-csv");
+	//arrayData = loadListFile("-csv");
+	//root = buildKDTree(arrayData);
+	//nearestNeighbor(root, "-cmd");
+	//float A[2] = { 35.66, 139.6 };
+	//float B[2] = { 35.6897, 139.6922 };
+	//cout << endl << "Pos - Tokyo: " << getDistance(A, B);
+	//float C[2] = { 33.7333, 135.383 };
+	//cout << endl;
+	//cout << "Pos - Tanabe: " << getDistance(A, C);
+	vector<Data> arrayData = readFile("Tree.txt");
+	Node* root = updateTree("Tree.txt");
+	//insert1City(root, arrayData);
 	arrayData = loadListFile("-csv");
 	root = buildKDTree(arrayData);
-	nearestNeighbor(root, "-cmd");
-	float A[2] = { 35.66, 139.6 };
-	float B[2] = { 35.6897, 139.6922 };
-	cout << endl << "Pos - Tokyo: " << getDistance(A, B);
-	float C[2] = { 33.7333, 135.383 };
-	cout << endl;
-	cout << "Pos - Tanabe: " << getDistance(A, C);
+	writeBFSToTXT("Tree.txt", root);
+
+	arrayData = readFile("Tree.txt");
+	root = updateTree("Tree.txt");
+	insert1City(root, arrayData);
+	writeBFSToTXT("Tree.txt", root);
+
+	arrayData = readFile("Tree.txt");
+	root = updateTree("Tree.txt");
+	float A[2] = { 49.9, 49.9 };
+	nearestNeighbor(root, "-cmd", A);
 	return 0;
 }*/

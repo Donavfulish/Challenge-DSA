@@ -35,5 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="DATA.txt" />
+    <Text Include="Tree.txt" />
   </ItemGroup>
 </Project>

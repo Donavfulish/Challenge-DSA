@@ -43,3 +43,4 @@ void Insert(Node*& root, Data D, vector<Data>& arrayData);
 void BFS(Node* root);
 void searchRecursive(Node*& root, float target[2], Data& best_city);
 Data findNearestNeighborSearch(Node*& root, float target[2]);
+Node* updateTree(string filename);

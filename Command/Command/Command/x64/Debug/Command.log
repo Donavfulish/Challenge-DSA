@@ -1,0 +1,6 @@
+﻿  main.cpp
+D:\TRIET\Challenge-DSA\Command\Command\main.cpp(110,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\TRIET\Challenge-DSA\Command\Command\main.cpp(110,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Command.vcxproj -> D:\TRIET\Challenge-DSA\Command\Command\x64\Debug\Command.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

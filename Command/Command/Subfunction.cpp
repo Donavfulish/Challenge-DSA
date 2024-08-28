@@ -271,6 +271,36 @@ Data findNearestNeighborSearch(Node*& root, float target[2]) // Triet sửa prot
 }
 //==========================Luan===============================================================================
 
+
+Node* updateTree(string filename)
+{
+	fstream fs(filename.c_str());
+	vector<Data> setof_City;
+	Data D;
+	Node* root = NULL;
+	int depth = 0;
+	if (!fs.is_open())
+	{
+		cout << "File not found\n";
+		return { };
+	}
+
+	else
+	{
+		string temp;
+		getline(fs, temp);
+
+		while (getline(fs, temp))
+		{
+			D = encryption(temp);
+			insertRecursion(root, D, depth);
+			depth++;
+		}
+
+
+		return root;
+	}
+}
 /*int main()
 {
 	// Au test -----------------------------------------------------------------------------------

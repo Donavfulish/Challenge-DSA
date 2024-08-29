@@ -11,13 +11,15 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	//cin >> argc;
+	//for (int i = 0; i < argc; i++) cin >> argv[i];
 	//for (int i = 0; i < argc; i++) cout << i << ". " << argv[i] << "." << endl;
 	// Thiết lập locale để hỗ trợ UTF-8
 	locale::global(locale("en_US.UTF-8"));
 	wcout.imbue(locale());
 
 	// Update Tree and Array
-	vector<Data> arrayData = readFile("Treebin");
+	vector<Data> arrayData = readBinaryFile("Treebin");
 	Node* root = updateTree("Treebin");
 
 	//wcout << argv[1] << " " << argv[2];
@@ -31,22 +33,23 @@ int main(int argc, char* argv[])
 		}
 		else if (strcmp(argv[2], "-csv") == 0)
 		{
-			writeFileBin("listFile.csv", root);
+			writeBFSToTXT("listFile.csv", root);
 		}
 	}
 	else if (strcmp(argv[1], "insert") == 0)
 	{
 		if (argc == 2)
 		{
-			cout << "------------------------" << endl;
-			cout << "INSERT A CITY" << endl;
+			cout << "     INSERT A CITY" << endl;
 			cout << "------------------------" << endl;
 			insert1City(root, arrayData);
+			//if (root != nullptr) cout << root->key.Name; else cout << "null";
 			writeFileBin("Treebin", root);
 		}
 		else if (argc == 3)
 		{
 			insertFromFile(argv[2], root, arrayData);
+			cout << "All datas from \'" << argv[2] << "\' have been successfully stored." << endl;
 			writeFileBin("Treebin", root);
 		}
 	}

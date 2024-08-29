@@ -32,6 +32,7 @@ struct Node
 
 Node* createNode(Data key, int previousDeep);
 Data encryption(string temp);
+vector<Data> readBinaryFile(string fileName);
 vector<Data> readFile(string fileName);
 float getDistance(float A[2], float B[2]);
 void rangeSearch(vector<Data>& result, Node* pRoot, float LeftBottom[2], float TopRight[2]);

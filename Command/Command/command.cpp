@@ -73,6 +73,9 @@ void writeFileBin(string fileName, Node* root) {
 	outFile.close();
 	return;
 }
+
+
+
 vector<Data> loadListFile(string print)
 {
 	vector<Data> data = readFile("DATA.txt");
@@ -141,7 +144,8 @@ void nearestNeighbor(Node*& root, string print, float target[2])
 		}
 		else
 		{
-			f << D.Name << "," << D.Position[0] << "," << D.Position[1] << endl;
+			f << "City,Latitude,Longitude,Distance" << endl;
+			f << D.Name << "," << D.Position[0] << "," << D.Position[1] << "," << getDistance(target, D.Position) << endl;
 		}
 		f.close();
 	}
@@ -153,6 +157,7 @@ void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2
 	rangeSearch(result, root, LeftBottom, TopRight);
 	if (print == "-cmd")
 	{
+		if (result.size() == 0) cout << "No cities found in the range." << endl;
 		for (int i = 0; i < result.size(); i++)
 		{
 			wcout << i + 1 << ". " << stringToWstring(result[i].Name) << ": (" << result[i].Position[0] << "," << result[i].Position[1] << ")" << endl;
@@ -169,9 +174,10 @@ void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2
 		}
 		else
 		{
+			f << "Cities,Latitude,Longitude" << endl;
 			for (int i = 0; i < result.size(); i++)
 			{
-				f << result[i].Name << ": (" << result[i].Position[0] << "," << result[i].Position[1] << ")" << endl;
+				f << result[i].Name << "," << result[i].Position[0] << "," << result[i].Position[1] << endl;
 			}
 		}
 		f.close();

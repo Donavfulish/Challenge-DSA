@@ -54,7 +54,7 @@ Data encryption(string temp)
 	return key;
 }
 
-vector<Data> readFile(string fileName) {
+vector<Data> readBinaryFile(string fileName) {
 	ifstream fs(fileName, ios::binary | ios::in);
 	if (!fs) {
 		cerr << "Không thể mở tệp để đọc." << endl;
@@ -85,6 +85,28 @@ vector<Data> readFile(string fileName) {
 
 	fs.close();
 	return setof_City;
+}
+
+vector<Data> readFile(string fileName)
+{
+	fstream fs(fileName.c_str());
+	vector<Data> setof_City;
+	if (!fs.is_open())
+	{
+		cout << "File not found\n";
+		return { };
+	}
+
+	else
+	{
+		string temp;
+		getline(fs, temp);
+
+		while (getline(fs, temp))
+			setof_City.push_back(encryption(temp));
+
+		return setof_City;
+	}
 }
 
 // calculating distance between two points A and B (using Haversine formula)
@@ -189,6 +211,7 @@ void Insert(Node*& root, Data D, vector<Data>& arrayData)
 	arrayData.push_back(D);
 	int left = numberNode(root->leftNode);
 	int right = numberNode(root->rightNode);
+	if (min(left, right) == 0) return;
 	float checkBalanced = max(left, right) / min(left, right);
 	if (checkBalanced >= 4.0)
 	{
@@ -320,10 +343,12 @@ Node* updateTree(string filename)
 		}
 		return root;
 	}
+	fs.close();
 }
 
 void printDataList(const vector<Data>& dataList)
 {
+	if (dataList.size() == 0) cout << "Data is empty!" << endl;
 	int cnt = 0;
 	for (Data data : dataList)
 	{
@@ -334,8 +359,8 @@ void printDataList(const vector<Data>& dataList)
 vector<Data> getDataListFromTree(Node* root) // Use BFS
 {
 	queue<Node*> s;
-	vector<Data> dataList;
-	s.push(root);
+	vector<Data> dataList (0);
+	if (root != nullptr) s.push(root);
 
 	while (!s.empty())
 	{
@@ -351,6 +376,46 @@ vector<Data> getDataListFromTree(Node* root) // Use BFS
 	return dataList;
 }
 
+void writeBFSToTXT(string output, Node* root)
+{
+	ofstream f;
+	f.open(output, ios::out);
+	if (!f.is_open())
+	{
+		wcout << "File not found\n";
+		return;
+	}
+	else
+	{
+		f << "City,Latitude,Longitude\n";
+		queue<Node*> q;
+		if (root != nullptr) q.push(root);
+		int level = 0;
+
+		while (!q.empty())
+		{
+			vector<Node*> levelList;
+
+			while (!q.empty())
+			{
+				Node* curNode = q.front();
+				levelList.push_back(curNode);
+				q.pop();
+				Data x = curNode->key;
+				f << x.Name << "," << x.Position[0] << "," << x.Position[1] << endl;
+			}
+
+
+			for (Node* node : levelList)
+			{
+				if (node->leftNode != nullptr) q.push(node->leftNode);
+				if (node->rightNode != nullptr) q.push(node->rightNode);
+			}
+		}
+	}
+	f.close();
+	return;
+}
 /*int main()
 {
 	// Au test -----------------------------------------------------------------------------------

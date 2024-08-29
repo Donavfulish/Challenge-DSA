@@ -15,3 +15,4 @@ void rectangular(Node* root, string print, float LeftBottom[2], float TopRight[2
 void writeFileBin(string output, Node* root);
 void printDataList(const vector<Data>& dataList);
 vector<Data> getDataListFromTree(Node* root); // Use BFS
+void writeBFSToTXT(string output, Node* root);

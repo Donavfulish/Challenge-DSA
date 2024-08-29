@@ -32,18 +32,15 @@ void writeToCSV(string output, vector<Data> D)
 	f.close();
 	return;
 }
-void writeBFSToTXT(string output, Node* root)
-{
-	ofstream f;
-	f.open(output, ios::out);
-	if (!f.is_open())
-	{
-		wcout << "File not found\n";
+
+void writeFileBin(string fileName, Node* root) {
+	ofstream outFile(fileName, ios::binary | ios::out );
+	if (!outFile) {
+		cerr << "Không thể mở tệp để ghi." << endl;
 		return;
 	}
 	else
 	{
-		f << "city,lat,lng\n";
 		queue<Node*> q;
 		q.push(root);
 		int level = 0;
@@ -57,8 +54,12 @@ void writeBFSToTXT(string output, Node* root)
 				Node* curNode = q.front();
 				levelList.push_back(curNode);
 				q.pop();
-				Data x = curNode->key;
-				f << x.Name << "," << x.Position[0] << "," << x.Position[1] << endl;
+				Data city = curNode->key;
+				size_t nameSize = city.Name.size();
+				outFile.write(reinterpret_cast<const char*>(&nameSize), sizeof(nameSize));
+				outFile.write(city.Name.c_str(), nameSize);
+				outFile.write((char*)&(city.Position[0]), sizeof(city.Position[0]));
+				outFile.write((char*)&(city.Position[1]), sizeof(city.Position[1]));
 			}
 
 
@@ -69,7 +70,7 @@ void writeBFSToTXT(string output, Node* root)
 			}
 		}
 	}
-	f.close();
+	outFile.close();
 	return;
 }
 vector<Data> loadListFile(string print)

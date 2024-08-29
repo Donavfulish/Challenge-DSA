@@ -1,4 +1,4 @@
-city,lat,lng
+﻿city,lat,lng
 Huaibei,33.9562,116.789
 Bethal,-26.45,29.45
 Érd,47.3833,18.9167

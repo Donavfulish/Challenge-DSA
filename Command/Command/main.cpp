@@ -2,6 +2,10 @@
 #include <iostream>
 #include <locale>
 #include <codecvt>
+#include <stack>
+#include <queue>
+#include <string>
+#include <vector>
 using namespace std;
 
 
@@ -13,8 +17,8 @@ int main(int argc, char* argv[])
 	wcout.imbue(locale());
 
 	// Update Tree and Array
-	vector<Data> arrayData = readFile("Tree.txt");
-	Node* root = updateTree("Tree.txt");
+	vector<Data> arrayData = readFile("Treebin");
+	Node* root = updateTree("Treebin");
 
 	//wcout << argv[1] << " " << argv[2];
 	if (strcmp(argv[1], "load") == 0)
@@ -24,10 +28,10 @@ int main(int argc, char* argv[])
 		{
 			vector<Data> dataList = getDataListFromTree(root);
 			printDataList(dataList);
-		}	
+		}
 		else if (strcmp(argv[2], "-csv") == 0)
 		{
-			writeBFSToTXT("listFile.csv", root);
+			writeFileBin("listFile.csv", root);
 		}
 	}
 	else if (strcmp(argv[1], "insert") == 0)
@@ -38,12 +42,12 @@ int main(int argc, char* argv[])
 			cout << "INSERT A CITY" << endl;
 			cout << "------------------------" << endl;
 			insert1City(root, arrayData);
-			writeBFSToTXT("Tree.txt", root);
+			writeFileBin("Treebin", root);
 		}
 		else if (argc == 3)
 		{
 			insertFromFile(argv[2], root, arrayData);
-			writeBFSToTXT("Tree.txt", root);
+			writeFileBin("Treebin", root);
 		}
 	}
 	else if (strcmp(argv[1], "nearest-neighbor") == 0)
@@ -76,37 +80,3 @@ int main(int argc, char* argv[])
 	//system("pause");
 	return 0;
 }
-
-//=========== TEST ============
-/*int main()
-{
-	//Node* root = NULL;
-	//vector<Data> arrayData;
-	//loadListFile("-csv");
-	//arrayData = loadListFile("-csv");
-	//root = buildKDTree(arrayData);
-	//nearestNeighbor(root, "-cmd");
-	//float A[2] = { 35.66, 139.6 };
-	//float B[2] = { 35.6897, 139.6922 };
-	//cout << endl << "Pos - Tokyo: " << getDistance(A, B);
-	//float C[2] = { 33.7333, 135.383 };
-	//cout << endl;
-	//cout << "Pos - Tanabe: " << getDistance(A, C);
-	vector<Data> arrayData = readFile("Tree.txt");
-	Node* root = updateTree("Tree.txt");
-	//insert1City(root, arrayData);
-	arrayData = loadListFile("-csv");
-	root = buildKDTree(arrayData);
-	writeBFSToTXT("Tree.txt", root);
-
-	arrayData = readFile("Tree.txt");
-	root = updateTree("Tree.txt");
-	insert1City(root, arrayData);
-	writeBFSToTXT("Tree.txt", root);
-
-	arrayData = readFile("Tree.txt");
-	root = updateTree("Tree.txt");
-	float A[2] = { 49.9, 49.9 };
-	nearestNeighbor(root, "-cmd", A);
-	return 0;
-}*/

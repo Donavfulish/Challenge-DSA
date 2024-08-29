@@ -54,26 +54,37 @@ Data encryption(string temp)
 	return key;
 }
 
-vector<Data> readFile(string fileName)
-{
-	fstream fs(fileName.c_str());
+vector<Data> readFile(string fileName) {
+	ifstream fs(fileName, ios::binary | ios::in);
+	if (!fs) {
+		cerr << "Không thể mở tệp để đọc." << endl;
+		return {};
+	}
+
 	vector<Data> setof_City;
-	if (!fs.is_open())
+	while (!fs.eof())
 	{
-		cout << "File not found\n";
-		return { };
+		size_t nameSize;
+		if (!fs.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize))) break; // Đọc kích thước tên thành phố
+
+		// Đọc tên thành phố
+		string name(nameSize, '\0'); // Tạo chuỗi với kích thước đúng
+		if (!fs.read((char*)name.data(), nameSize)) break; // Đọc dữ liệu tên thành phố
+
+		float pos[2];
+		if (!fs.read(reinterpret_cast<char*>(&pos[0]), sizeof(pos[0]))) break;
+		if (!fs.read(reinterpret_cast<char*>(&pos[1]), sizeof(pos[1]))) break;
+
+		Data city;
+		city.Name = name;
+		city.Position[1] = pos[1];
+		city.Position[0] = pos[0];
+
+		setof_City.push_back(city);
 	}
 
-	else
-	{
-		string temp;
-		getline(fs, temp);
-
-		while (getline(fs, temp))
-			setof_City.push_back(encryption(temp));
-
-		return setof_City;
-	}
+	fs.close();
+	return setof_City;
 }
 
 // calculating distance between two points A and B (using Haversine formula)
@@ -275,7 +286,7 @@ Data findNearestNeighborSearch(Node*& root, float target[2]) // Triet sửa prot
 
 Node* updateTree(string filename)
 {
-	fstream fs(filename.c_str());
+	fstream fs(filename.c_str(), ios::binary | ios::in);
 	vector<Data> setof_City;
 	Data D;
 	Node* root = NULL;
@@ -288,17 +299,25 @@ Node* updateTree(string filename)
 
 	else
 	{
-		string temp;
-		getline(fs, temp);
-
-		while (getline(fs, temp))
+		while (!fs.eof())
 		{
-			D = encryption(temp);
+			size_t nameSize;
+			if (!fs.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize))) break;
+
+			// Đọc tên thành phố
+			string name(nameSize, '\0'); 
+			if (!fs.read((char*)name.data(), nameSize)) break; 
+
+			float pos[2];
+			if (!fs.read(reinterpret_cast<char*>(&pos[0]), sizeof(pos[0]))) break;
+			if (!fs.read(reinterpret_cast<char*>(&pos[1]), sizeof(pos[1]))) break;
+
+			D.Name = name;
+			D.Position[1] = pos[1];
+			D.Position[0] = pos[0];
 			insertRecursion(root, D, depth);
 			depth++;
 		}
-
-
 		return root;
 	}
 }

@@ -170,6 +170,15 @@ void insertRecursion(Node*& root, Data D, int depth)
 			insertRecursion(root->rightNode, D, depth + 1);
 		else if (D.Position[0] < root->key.Position[0])
 			insertRecursion(root->leftNode, D, depth + 1);
+		else if (D.Position[0] == root->key.Position[0])
+		{
+			if (D.Position[1] > root->key.Position[1])
+				insertRecursion(root->rightNode, D, depth + 1);
+			else if (D.Position[1] < root->key.Position[1])
+				insertRecursion(root->leftNode, D, depth + 1);
+			else if (D.Position[1] == root->key.Position[1])
+				return;
+		}
 	}
 	else if (dim == 1)
 	{
@@ -177,6 +186,15 @@ void insertRecursion(Node*& root, Data D, int depth)
 			insertRecursion(root->rightNode, D, depth + 1);
 		else if (D.Position[1] < root->key.Position[1])
 			insertRecursion(root->leftNode, D, depth + 1);
+		else if (D.Position[1] == root->key.Position[1])
+		{
+			if (D.Position[0] > root->key.Position[0])
+				insertRecursion(root->rightNode, D, depth + 1);
+			else if (D.Position[0] < root->key.Position[0])
+				insertRecursion(root->leftNode, D, depth + 1);
+			else if (D.Position[0] == root->key.Position[0])
+				return;
+		}
 	}
 }
 Node* buildBalancedKDTree(vector<Data>& points, int start, int end, int depth) {
